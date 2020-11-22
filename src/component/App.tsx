@@ -12,6 +12,7 @@ import config from '../env'
 
 function App() {
   const history = createBrowserHistory()
+  console.log(process.env)
   const [socket, setSocket] = useState(socketConnection(process.env.SOCKET_URL || config.SOCKET_URL))
 
   useEffect(() => {
