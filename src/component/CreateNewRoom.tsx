@@ -19,7 +19,7 @@ const CreateNewRoom = () => {
 
     const onCreateRoom = () => {
         setLoading(true)
-        axios.post(`${config.API_URL}/room`, { name, owner: user.userName })
+        axios.post(`${process.env.REACT_APP_SOCKET_URL}/room` || `${config.API_URL}/room`, { name, owner: user.userName })
             .then(res => {
                 const { id } = res.data.room
                 history.push(`/room/${id}`)

@@ -3,7 +3,7 @@ import config from '../env'
 
 import { User } from '../Entity/User'
 
-const API_URL = config.API_URL
+const API_URL = process.env.REACT_APP_API_URL || config.API_URL
 
 const register = ({ userName, password }: User) => {
     return axios.post(API_URL + '/auth/signup', {
