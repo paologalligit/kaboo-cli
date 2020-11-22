@@ -14,7 +14,7 @@ const JoinRoom = () => {
     const [code, setCode] = useState('')
 
     const onJoinClick = () => {
-        axios.get(`${config.API_URL}/room/${code}`)
+        axios.get(`${process.env.REACT_APP_API_URL}/room/${code}` || `${config.API_URL}/room/${code}`)
             .then(res => {
                 history.push(`/room/${code}`)
                 window.location.reload()
