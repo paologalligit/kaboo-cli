@@ -1,0 +1,13 @@
+.home-screen {
+    display: flex;
+    flex-direction: column;
+    font-family:  -apple-system, BlinkMacSystemFont, sans-serif;
+    height: 100vh;
+}
+
+.home-buttons {
+    display: inherit;
+    align-items: center;
+    justify-content: space-evenly;
+    min-height: 50vh;
+}

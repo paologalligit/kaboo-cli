@@ -1,0 +1,12 @@
+.room-screen {
+    display: flex;
+    flex-direction: column;
+    font-family:  -apple-system, BlinkMacSystemFont, sans-serif;
+    height: 100vh;
+}
+
+.room-body {
+    display: inherit;
+    flex-direction: inherit;
+    align-items: center;
+}
