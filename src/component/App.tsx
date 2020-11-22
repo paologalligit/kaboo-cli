@@ -12,8 +12,8 @@ import config from '../env'
 
 function App() {
   const history = createBrowserHistory()
-  const env = process.env.NODE_ENV === 'development' ? config.dev : config.prod
-  const [socket, setSocket] = useState(socketConnection(env.SOCKET_URL))
+  console.log(process.env)
+  const [socket, setSocket] = useState(socketConnection(process.env.SOCKET_URL || config.SOCKET_URL))
 
   useEffect(() => {
     return () => {
