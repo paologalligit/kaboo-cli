@@ -1,0 +1,29 @@
+.card-container {
+    display: flex;
+    width: 18rem;
+    border-style: outset;
+    border-width: 2mm;
+    border-color: black;
+    border-radius: 5%;
+    align-items: center;
+    -webkit-box-shadow: 21px 31px 32px -8px rgba(0,0,0,0.85);
+    -moz-box-shadow: 21px 31px 32px -8px rgba(0,0,0,0.85);
+    box-shadow: 21px 31px 32px -8px rgba(0,0,0,0.85);
+    background: rgb(238,174,202);
+    background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
+}
+
+.card-list {
+    width: inherit;
+    align-items: center;
+}
+
+.card-list-item {
+    display: inherit;
+    width: 80%;
+    border-left: 0ch;
+    border-right: 0ch;
+    justify-content: center;
+    background-color: transparent;
+    font-weight: bold;
+}

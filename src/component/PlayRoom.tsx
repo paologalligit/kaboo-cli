@@ -89,6 +89,10 @@ const PlayRoom = ({ socket, router: { location: { search, state: { users, } }, m
                 })
             }
         })
+
+        socket.on('ask4word', () => {
+            socket.emit('getWord', { requestingUser: user, roomId, seed: getSeed() })
+        })
     }, [])
 
     const startCountDown = (time: number) => {
@@ -105,7 +109,7 @@ const PlayRoom = ({ socket, router: { location: { search, state: { users, } }, m
     }
 
     const getUserLength = () => {
-        return users.reduce((acc: number, curr: TeamMember) =>  acc + curr.name.length, 0)
+        return users.reduce((acc: number, curr: TeamMember) => acc + curr.name.length, 0)
     }
 
     const getWordsLength = (card: CardResponse) => {
@@ -184,11 +188,13 @@ const PlayRoom = ({ socket, router: { location: { search, state: { users, } }, m
 
     const onCorrectWord = () => {
         socket.emit('point', { team, roomId, point: 1 })
-        socket.emit('getWord', { roomId, seed: getSeed() })
+        // socket.emit('getWord', { roomId, seed: getSeed() })
+        socket.emit('ask4word', { roomId })
     }
     const onErrorWord = () => {
         socket.emit('point', { team, roomId, point: -1 })
-        socket.emit('getWord', { roomId, seed: getSeed() })
+        socket.emit('ask4word', { roomId })
+        // socket.emit('getWord', { roomId, seed: getSeed() })
     }
     const onSkipWord = () => {
 
@@ -198,7 +204,7 @@ const PlayRoom = ({ socket, router: { location: { search, state: { users, } }, m
     }
 
     return (
-        <div>
+        <div style={{backgroundColor: 'ivory'}}>
             <Header text="LEAVE GAME" logout={() => onLeaveGameClick()} />
             <div style={{ display: "flex", alignItems: 'center', justifyContent: 'space-around' }}>
                 <div style={{ marginLeft: '5px' }}>
@@ -213,7 +219,7 @@ const PlayRoom = ({ socket, router: { location: { search, state: { users, } }, m
                         {countDown && <h1>{count}</h1>}
                     </div>
                 </div>
-                <div style={{}}>
+                <div style={{  }}>
                     {card.word &&
                         <div>
                             <h1 style={{ color: getRoleColor(role) }}>{role}</h1>

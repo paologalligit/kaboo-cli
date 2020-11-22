@@ -26,7 +26,7 @@ const Room = ({ socket, router: { match } }: Props) => {
     const user: User = JSON.parse(localStorage.getItem('user') || '')
 
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_API_URL}/room/owner/${id}` || `${config.API_URL}/room/owner/${id}`)
+        axios.get(`${config.API_URL}/room/owner/${id}`)
             .then(res => {
                 if (res) {
                     setIsOwner(res.data.owner === user.userName)
@@ -52,7 +52,7 @@ const Room = ({ socket, router: { match } }: Props) => {
 
     const onStartClick = () => {
         setLoading(true)
-        axios.post(`${process.env.REACT_APP_API_URL}/room/start` || `${config.API_URL}/room/start`, {
+        axios.post(`${config.API_URL}/room/start`, {
             roomId: id
         })
             .then(res => {
