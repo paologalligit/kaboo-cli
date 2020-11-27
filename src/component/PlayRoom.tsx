@@ -230,6 +230,7 @@ const PlayRoom = ({ socket, router: { location: { search, state: { users, } }, m
                                 onSkip={() => onSkipWord()}
                                 onNewTurn={() => onNewTurn()}
                                 disabled={wordCounter === 0}
+                                pointButtons={role !== 'Speaker'}
                             />
                         </div>
                     }
