@@ -1,0 +1,10 @@
+.team-board-component {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 80vh;
+}
+
+.team-player-board {
+    overflow: hidden;
+}

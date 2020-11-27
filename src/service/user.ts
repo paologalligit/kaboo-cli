@@ -3,4 +3,3 @@ import authHeader from './authHeader'
 import config from '../env'
 
 const API_URL = config.API_URL
-

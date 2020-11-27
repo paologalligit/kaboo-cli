@@ -9,6 +9,7 @@ import './styles/PlayRoom.css'
 import { RiUserVoiceLine } from "react-icons/ri"
 import { BsQuestionCircleFill } from 'react-icons/bs'
 import { GiPoliceOfficerHead } from 'react-icons/gi'
+import TeamBoard from '../container/TeamBoard'
 
 interface Props {
     socket: SocketIOClient.Socket;
@@ -151,26 +152,6 @@ const PlayRoom = ({ socket, router: { location: { search, state: { users, } }, m
         }
     }
 
-    const getTeamOne = () => {
-        return (
-            users
-                .filter((u: TeamMember) => u.team === 0)
-                .map((u: TeamMember) => {
-                    return <ul key={u.id} style={{ color: 'blue' }}>{u.name}</ul>
-                })
-        )
-    }
-
-    const getTeamTwo = () => {
-        return (
-            users
-                .filter((u: TeamMember) => u.team === 1)
-                .map((u: TeamMember) => {
-                    return <ul key={u.id} style={{ color: 'red' }}>{u.name}</ul>
-                })
-        )
-    }
-
     const onLeaveGameClick = () => {
         const leave = window.confirm('Do you really want to leave the game?')
 
@@ -228,14 +209,12 @@ const PlayRoom = ({ socket, router: { location: { search, state: { users, } }, m
         <div className="play-room-component">
             <Header text="LEAVE GAME" logout={() => onLeaveGameClick()} />
             <div className="play-room-body" >
-                <div style={{ marginLeft: '5px' }}>
-                    <p>PLAYER: {user}</p>
-                    <div>TEAM 1: {teamOnePoints} pts.
-                    {getTeamOne()}
-                    </div>
-                    <div>TEAM 2: {teamTwoPoints} pts.
-                    {getTeamTwo()}
-                    </div>
+                <div >
+                    <TeamBoard 
+                        users={users}
+                        teamOnePoints={teamOnePoints}
+                        teamTwoPoints={teamTwoPoints}
+                    />
                     <div>
                         {countDown && <h1>{count}</h1>}
                     </div>

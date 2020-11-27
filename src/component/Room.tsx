@@ -73,7 +73,6 @@ const Room = ({ socket, router: { match } }: Props) => {
                 <div className="waiting-room-header">
                     <p>THIS IS ROOM {id.toUpperCase()}</p>
                     <FaCopy style={{ height: '15px', marginLeft: '5px', cursor: 'pointer' }} onClick={() => navigator.clipboard.writeText(id)} />
-
                 </div>
 
                 <div>
