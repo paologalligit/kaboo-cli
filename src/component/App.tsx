@@ -15,7 +15,7 @@ function App() {
   const history = createBrowserHistory()
   const SOCKET = process.env.REACT_APP_SOCKET_URL || config.SOCKET_URL
   const [socket, setSocket] = useState(socketConnection(SOCKET))
-
+  console.log(process.env)
   useEffect(() => {
     return () => {
       alert('disconnecting....')
