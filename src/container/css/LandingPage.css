@@ -1,0 +1,7 @@
+.login-signup-page {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    border: dotted;
+    height: 100vh;
+}

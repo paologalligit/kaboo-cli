@@ -9,6 +9,7 @@ import PrivateRoute from '../container/PrivateRoute'
 import Room from './Room'
 import PlayRoom from './PlayRoom'
 import config from '../env'
+import LandingPage from '../container/LandingPage';
 
 function App() {
   const history = createBrowserHistory()
@@ -25,7 +26,7 @@ function App() {
   return (
     <Router history={history}>
       <Switch>
-        <Route exact path="/" component={Login} />
+        <Route exact path="/" component={LandingPage} />
 
         <Route path="/room/:id" render={props => {
           return <Room router={props} socket={socket} />

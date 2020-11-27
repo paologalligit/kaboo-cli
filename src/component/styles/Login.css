@@ -1,0 +1,41 @@
+.login-card {
+    display: inherit;
+    border-radius: 1%;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 80vh;
+    width: 75vh;
+    border-width: 1mm;
+}
+
+.login-form {
+    display: inherit;
+    flex-direction: column;
+    height: 80%;
+    width: 80%;
+    text-align: center;
+    justify-content: space-around;
+}
+
+.signup-form {
+    display: inherit;
+    justify-content: space-around;
+    flex-direction: column;
+    height: 80%;
+    width: 80%;
+    text-align: center;
+}
+
+.login-input {
+    border-top: 0ch;
+    border-left: 0ch;
+    border-right: 0ch;
+    margin-bottom: 15px;
+}
+
+.signup-input {
+    border-top: 0ch;
+    border-left: 0ch;
+    border-right: 0ch;
+    margin-bottom: 5px;
+}

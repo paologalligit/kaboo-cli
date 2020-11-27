@@ -1,8 +1,15 @@
+html, body {
+    margin: 0;
+}
+
 .home-screen {
     display: flex;
     flex-direction: column;
     font-family:  -apple-system, BlinkMacSystemFont, sans-serif;
-    height: 100vh;
+    height:100vh;
+    width:100vw;
+    border: dotted;
+    background-size : 100% auto;
 }
 
 .home-buttons {

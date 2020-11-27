@@ -3,7 +3,6 @@ import { useHistory, RouteComponentProps } from 'react-router-dom'
 import qs from 'qs'
 import Header from '../container/Header'
 import Card from '../container/Card'
-import { emit } from 'process'
 import GameTimer from '../container/GameTimer'
 import BottomCardButtons from '../container/BottomCardButtons'
 
@@ -204,7 +203,7 @@ const PlayRoom = ({ socket, router: { location: { search, state: { users, } }, m
     }
 
     return (
-        <div style={{backgroundColor: 'ivory'}}>
+        <div style={{ backgroundColor: 'ivory' }}>
             <Header text="LEAVE GAME" logout={() => onLeaveGameClick()} />
             <div style={{ display: "flex", alignItems: 'center', justifyContent: 'space-around' }}>
                 <div style={{ marginLeft: '5px' }}>
@@ -219,9 +218,9 @@ const PlayRoom = ({ socket, router: { location: { search, state: { users, } }, m
                         {countDown && <h1>{count}</h1>}
                     </div>
                 </div>
-                <div style={{  }}>
+                <div>
                     {card.word &&
-                        <div>
+                        <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly' }}>
                             <h1 style={{ color: getRoleColor(role) }}>{role}</h1>
                             <Card word={card.word} forbidden={card.forbidden} hide={role === 'Guesser'} />
                             <BottomCardButtons

@@ -19,7 +19,7 @@ const CreateNewRoom = () => {
 
     const onCreateRoom = () => {
         setLoading(true)
-        axios.post(`${process.env.REACT_APP_SOCKET_URL}/room` || `${config.API_URL}/room`, { name, owner: user.userName })
+        axios.post(`${config.API_URL}/room`, { name, owner: user.userName })
             .then(res => {
                 const { id } = res.data.room
                 history.push(`/room/${id}`)
@@ -41,32 +41,7 @@ const CreateNewRoom = () => {
                 CREATE NEW ROOM
             </Button>
             {loading && <Spinner animation="border" role="status"><span className="sr-only">Loading...</span></Spinner>}
-            {/* {show &&
-                <Modal.Dialog>
-                    <Modal.Header closeButton>
-                        <Modal.Title id="contained-modal-title-vcenter">
-                            Create new Room
-                        </Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body className="show-grid">
-                        <Container>
-                            <Row>
-                                <Col xs={12} md={8}>
-                                    <label>Name:</label>
-                                    <input placeholder="Room name" onChange={e => setName(e.target.value)}></input>
-                                </Col>
-                                <Col xs={6} md={4}>
-                                    Other stuff...
-                                </Col>
-                            </Row>
-                        </Container>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="danger" onClick={() => setShow(prevShow => !prevShow)} >Close</Button>
-                        <Button variant="success" onClick={() => onCreateRoom()} disabled={name === ''} >Create</Button>
-                    </Modal.Footer>
-                </Modal.Dialog>
-            } */}
+
             {show &&
                 <Modal show={show} onHide={handleClose}>
                     <Modal.Header closeButton>

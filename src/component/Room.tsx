@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Header from '../container/Header'
+import { FaCopy } from "react-icons/fa";
 
 import config from '../env'
 import { User } from '../Entity/User'
@@ -26,7 +27,7 @@ const Room = ({ socket, router: { match } }: Props) => {
     const user: User = JSON.parse(localStorage.getItem('user') || '')
 
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_API_URL}/room/owner/${id}` || `${config.API_URL}/room/owner/${id}`)
+        axios.get(`${config.API_URL}/room/owner/${id}`)
             .then(res => {
                 if (res) {
                     setIsOwner(res.data.owner === user.userName)
@@ -52,7 +53,7 @@ const Room = ({ socket, router: { match } }: Props) => {
 
     const onStartClick = () => {
         setLoading(true)
-        axios.post(`${process.env.REACT_APP_API_URL}/room/start` || `${config.API_URL}/room/start`, {
+        axios.post(`${config.API_URL}/room/start`, {
             roomId: id
         })
             .then(res => {
@@ -66,12 +67,15 @@ const Room = ({ socket, router: { match } }: Props) => {
     return (
         <div>
             <Header logout={logout} text="EXIT ROOM" />
-            <RoomInfo socketConnection={socket} userName={user.userName} />
-
             {loading && <Spinner animation="border" role="status"><span className="sr-only">Loading...</span></Spinner>}
 
-            <p>THIS IS ROOM {id}</p>
+            <p>THIS IS ROOM {id.toUpperCase()}</p>
+            <FaCopy style={{ cursor: 'pointer' }} onClick={() => navigator.clipboard.writeText(id)} />
+
             <p>PLAYER: {user.userName}</p>
+
+            <RoomInfo socketConnection={socket} userName={user.userName} />
+
             {isOwner && <button onClick={() => onStartClick()}>START</button>}
         </div>
     )
