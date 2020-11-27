@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import 'bootstrap/dist/css/bootstrap.min.css'
 import { Alert, Button, Card, Form } from 'react-bootstrap'
 import { CgLogIn } from "react-icons/cg"
 

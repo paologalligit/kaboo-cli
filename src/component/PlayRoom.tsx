@@ -5,6 +5,10 @@ import Header from '../container/Header'
 import Card from '../container/Card'
 import GameTimer from '../container/GameTimer'
 import BottomCardButtons from '../container/BottomCardButtons'
+import './styles/PlayRoom.css'
+import { RiUserVoiceLine } from "react-icons/ri"
+import { BsQuestionCircleFill } from 'react-icons/bs'
+import { GiPoliceOfficerHead } from 'react-icons/gi'
 
 interface Props {
     socket: SocketIOClient.Socket;
@@ -177,6 +181,24 @@ const PlayRoom = ({ socket, router: { location: { search, state: { users, } }, m
         }
     }
 
+    const getPlayerHeader = (role: string) => {
+        const color = getRoleColor(role)
+        const icon = getRoleIcon(role, color)
+        return (
+            <div className="middle-card-header" >
+                {icon}
+                <h1 style={{ color: color }}>{role}</h1>
+            </div>
+        )
+    }
+
+    const getRoleIcon = (role: string, color: string) => {
+        if (role === 'Guesser') return <BsQuestionCircleFill size={40} color={color} />
+        if (role === 'Speaker') return <RiUserVoiceLine size={40} color={color} />
+
+        return <GiPoliceOfficerHead size={40} color={color} />
+    }
+
     // TODO: move this component outside in container?
     const getRoleColor = (role: string): string => {
         if (role === 'Guesser') return 'BLUE'
@@ -203,9 +225,9 @@ const PlayRoom = ({ socket, router: { location: { search, state: { users, } }, m
     }
 
     return (
-        <div style={{ backgroundColor: 'ivory' }}>
+        <div className="play-room-component">
             <Header text="LEAVE GAME" logout={() => onLeaveGameClick()} />
-            <div style={{ display: "flex", alignItems: 'center', justifyContent: 'space-around' }}>
+            <div className="play-room-body" >
                 <div style={{ marginLeft: '5px' }}>
                     <p>PLAYER: {user}</p>
                     <div>TEAM 1: {teamOnePoints} pts.
@@ -220,8 +242,8 @@ const PlayRoom = ({ socket, router: { location: { search, state: { users, } }, m
                 </div>
                 <div>
                     {card.word &&
-                        <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly' }}>
-                            <h1 style={{ color: getRoleColor(role) }}>{role}</h1>
+                        <div className="play-room-middle">
+                            {getPlayerHeader(role)}
                             <Card word={card.word} forbidden={card.forbidden} hide={role === 'Guesser'} />
                             <BottomCardButtons
                                 onCorrect={() => onCorrectWord()}
@@ -233,7 +255,7 @@ const PlayRoom = ({ socket, router: { location: { search, state: { users, } }, m
                         </div>
                     }
                 </div>
-                <div style={{}}>
+                <div >
                     <GameTimer
                         startTime={wordCounter}
                         onExpiredTime={() => { }}

@@ -1,11 +1,11 @@
 .button-room {
-    background: rgb(2,0,36);
-    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 55%, rgba(3,147,212,1) 86%, rgba(0,212,255,1) 100%);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 11%, rgba(103,210,106,1) 80%);
     border-color: black;
     -webkit-box-shadow: 0px 0px 32px -8px rgba(0,0,0,0.85);
     -moz-box-shadow: 0px 0px 32px -8px rgba(0,0,0,0.85);
     box-shadow: 0px 0px 32px -8px rgba(0,0,0,0.85);
     font-weight: bold;
+    color: black;
 }
 
 .button-logout {

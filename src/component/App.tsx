@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Router, Switch, Route } from 'react-router-dom'
 import { createBrowserHistory } from 'history'
 import socketConnection from 'socket.io-client'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
-import Login from './Login'
 import Home from './Home'
 import PrivateRoute from '../container/PrivateRoute'
 import Room from './Room'

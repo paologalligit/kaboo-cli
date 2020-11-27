@@ -1,12 +1,13 @@
-.room-screen {
+.waiting-room-body {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
     font-family:  -apple-system, BlinkMacSystemFont, sans-serif;
-    height: 100vh;
+    height: 92vh;
 }
 
-.room-body {
+.waiting-room-header {
     display: inherit;
-    flex-direction: inherit;
-    align-items: center;
+    flex-direction: row;
 }
