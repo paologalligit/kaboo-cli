@@ -40,6 +40,11 @@ interface PointUpdate {
     point: number;
 }
 
+interface UserLeftResponse {
+    user: string;
+    users: Array<TeamMember>;
+}
+
 const PlayRoom = ({ socket, router: { location: { search, state: { users, } }, match } }: Props) => {
     const history = useHistory()
     const [countDown, setCountDown] = useState(false)
@@ -50,10 +55,11 @@ const PlayRoom = ({ socket, router: { location: { search, state: { users, } }, m
     const [card, setCard] = useState(emptyCard)
     const [wordCounter, setWordCounter] = useState(2)
     const [role, setRole] = useState('-')
+    const [turnUsers, setTurnUsers] = useState(users)
 
     const { roomId, user } = qs.parse(search.substr(1, search.length - 1))
 
-    const team = users.filter((u: TeamMember) => u.name === user)[0].team
+    const team = turnUsers.filter((u: TeamMember) => u.name === user)[0].team
 
     //TODO: signal when a user logs out during a game
 
@@ -97,6 +103,11 @@ const PlayRoom = ({ socket, router: { location: { search, state: { users, } }, m
         socket.on('ask4word', () => {
             socket.emit('getWord', { requestingUser: user, roomId, seed: getSeed() })
         })
+
+        socket.on('userLeft', ({ user, users }: UserLeftResponse) => {
+            alert(`${user} left the game :(`)
+            setTurnUsers(users)
+        })
     }, [])
 
     const startCountDown = (time: number) => {
@@ -113,7 +124,7 @@ const PlayRoom = ({ socket, router: { location: { search, state: { users, } }, m
     }
 
     const getUserLength = () => {
-        return users.reduce((acc: number, curr: TeamMember) => acc + curr.name.length, 0)
+        return turnUsers.reduce((acc: number, curr: TeamMember) => acc + curr.name.length, 0)
     }
 
     const getWordsLength = (card: CardResponse) => {
@@ -156,8 +167,8 @@ const PlayRoom = ({ socket, router: { location: { search, state: { users, } }, m
         const leave = window.confirm('Do you really want to leave the game?')
 
         if (leave) {
-            socket.disconnect()
-            history.push('/home')
+            socket.emit('leaveGame', { roomId, user })
+            history.push(`/room/${roomId}`)
             window.location.reload()
         }
     }
@@ -210,8 +221,8 @@ const PlayRoom = ({ socket, router: { location: { search, state: { users, } }, m
             <Header text="LEAVE GAME" logout={() => onLeaveGameClick()} />
             <div className="play-room-body" >
                 <div >
-                    <TeamBoard 
-                        users={users}
+                    <TeamBoard
+                        users={turnUsers}
                         teamOnePoints={teamOnePoints}
                         teamTwoPoints={teamTwoPoints}
                     />
