@@ -49,7 +49,7 @@ const Room = ({ socket, router: { match } }: Props) => {
     }, [])
 
     const logout = () => {
-        socket.emit('leaveRoom', { user, roomId: id })
+        socket.emit('leaveRoom', { user: socket.id, roomId: id })
         history.push('/home')
         window.location.reload()
     }
