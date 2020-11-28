@@ -47,7 +47,7 @@ const TeamBoard = ({ users, teamOnePoints, teamTwoPoints }: Props) => {
             </Card>
 
             <Card style={{ width: '35vh' }}>
-                <Card.Header>Team TWO -- {teamOnePoints} points</Card.Header>
+                <Card.Header>Team TWO -- {teamTwoPoints} points</Card.Header>
                 <ListGroup variant="flush">
                     {getTeam(1)}
                 </ListGroup>
