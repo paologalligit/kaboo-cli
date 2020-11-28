@@ -53,7 +53,7 @@ const PlayRoom = ({ socket, router: { location: { search, state: { users, } }, m
     const [teamTwoPoints, setTeamTwoPoints] = useState(0)
     const emptyCard: CardResponse = { word: '', forbidden: [] }
     const [card, setCard] = useState(emptyCard)
-    const [wordCounter, setWordCounter] = useState(2)
+    const [wordCounter, setWordCounter] = useState(0)
     const [role, setRole] = useState('-')
     const [turnUsers, setTurnUsers] = useState(users)
 
@@ -67,11 +67,11 @@ const PlayRoom = ({ socket, router: { location: { search, state: { users, } }, m
         socket.emit('joinRoom', { name: user, roomId: roomId, totPlayers: users.length, team })
 
         socket.on('startCountdown', ({ time }: CountTime) => {
-            setWordCounter(2)
             setCountDown(true)
             setCount(time)
             startCountDown(time)
             socket.emit('setTurns', { roomId })
+            socket.emit('getRoles', { requestingUser: user, team, roomId })
         })
 
         socket.on('roles', ({ role }: { role: string }) => {
@@ -118,8 +118,7 @@ const PlayRoom = ({ socket, router: { location: { search, state: { users, } }, m
             }, 1000)
         } else {
             setCountDown(false)
-            socket.emit('getRoles', { requestingUser: user, team, roomId })
-            startWordCounter(wordCounter)
+            startWordCounter(2)
         }
     }
 
@@ -204,14 +203,16 @@ const PlayRoom = ({ socket, router: { location: { search, state: { users, } }, m
                     {card.word &&
                         <div className="play-room-middle">
                             {getPlayerHeader(role)}
-                            <Card word={card.word} forbidden={card.forbidden} hide={role === 'Guesser'} />
+                            {count === 0 &&
+                                <Card word={card.word} forbidden={card.forbidden} hide={role === 'Guesser'} />
+                            }
                             <BottomCardButtons
                                 onCorrect={() => onCorrectWord()}
                                 onError={() => onErrorWord()}
                                 onSkip={() => onSkipWord()}
                                 onNewTurn={() => onNewTurn()}
                                 newButtonDisabled={wordCounter === 0}
-                                pointButtonsDisabled={role !== 'Speaker' && count > 0}
+                                pointButtonsDisabled={role !== 'Speaker' || wordCounter === 0}
                             />
                         </div>
                     }
