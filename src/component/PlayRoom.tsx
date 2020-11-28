@@ -101,7 +101,7 @@ const PlayRoom = ({ socket, router: { location: { search, state: { users, } }, m
         })
 
         socket.on('ask4word', () => {
-            socket.emit('getWord', { requestingUser: user, roomId, seed: getSeed() })
+            socket.emit('getWord', { requestingUser: user, roomId, team, seed: getSeed() })
         })
 
         socket.on('userLeft', ({ user, users }: UserLeftResponse) => {
