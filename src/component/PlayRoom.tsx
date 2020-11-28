@@ -77,7 +77,7 @@ const PlayRoom = ({ socket, router: { location: { search, state: { users, } }, m
         socket.on('roles', ({ role }: { role: string }) => {
             console.log('got new role: ', role)
             setRole(role)
-            socket.emit('getWord', { requestingUser: user, roomId, team, seed: getSeed() })
+            socket.emit('getWord', { requestingUser: user, roomId, team, seed: 0, role })
         })
 
         socket.on('word', ({ word, forbidden }: CardResponse) => {
@@ -101,7 +101,7 @@ const PlayRoom = ({ socket, router: { location: { search, state: { users, } }, m
         })
 
         socket.on('ask4word', () => {
-            socket.emit('getWord', { requestingUser: user, roomId, team, seed: getSeed() })
+            socket.emit('getWord', { requestingUser: user, roomId, team, seed: 0, role })
         })
 
         socket.on('userLeft', ({ user, users }: UserLeftResponse) => {
@@ -121,36 +121,6 @@ const PlayRoom = ({ socket, router: { location: { search, state: { users, } }, m
             socket.emit('getRoles', { requestingUser: user, team, roomId })
             startWordCounter(wordCounter)
         }
-    }
-
-    const getUserLength = () => {
-        return turnUsers.reduce((acc: number, curr: TeamMember) => acc + curr.name.length, 0)
-    }
-
-    const getWordsLength = (card: CardResponse) => {
-        const wordSeed = card.word.length
-        const forbiddenSeed = card.forbidden.reduce((acc: number, curr: string) => acc + curr.length, 0)
-
-        const date = new Date()
-        const hour = date.getHours()
-        const day = date.getDay()
-
-        return wordSeed + forbiddenSeed + hour + day
-    }
-
-    // TODO: change the seed generation function to something more complex
-    const getSeed = () => {
-        let seed
-        setCard(prev => {
-            if (prev.word) {
-                seed = getWordsLength(prev)
-            } else {
-                seed = getUserLength()
-            }
-
-            return prev
-        })
-        return seed
     }
 
     const startWordCounter = (time: number) => {
@@ -240,8 +210,8 @@ const PlayRoom = ({ socket, router: { location: { search, state: { users, } }, m
                                 onError={() => onErrorWord()}
                                 onSkip={() => onSkipWord()}
                                 onNewTurn={() => onNewTurn()}
-                                disabled={wordCounter === 0}
-                                pointButtons={role !== 'Speaker'}
+                                newButtonDisabled={wordCounter === 0}
+                                pointButtonsDisabled={role !== 'Speaker' && count > 0}
                             />
                         </div>
                     }
