@@ -41,7 +41,7 @@ const Room = ({ socket, router: { match } }: Props) => {
 
         socket.on('startGame', (users: string) => {
             history.push(
-                `/play?roomId=${id}&user=${user.userName}`,
+                `/play?roomId=${id + '_game'}&user=${user.userName}`,
                 { users }
             )
             window.location.reload()

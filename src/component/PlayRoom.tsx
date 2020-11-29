@@ -75,7 +75,6 @@ const PlayRoom = ({ socket, router: { location: { search, state: { users, } }, m
         })
 
         socket.on('roles', ({ role }: { role: string }) => {
-            console.log('got new role: ', role)
             setRole(role)
             socket.emit('getWord', { requestingUser: user, roomId, team, seed: 0, role })
         })
@@ -101,6 +100,11 @@ const PlayRoom = ({ socket, router: { location: { search, state: { users, } }, m
         })
 
         socket.on('ask4word', () => {
+            let role
+            setRole(prev => {
+                role = prev
+                return prev
+            })
             socket.emit('getWord', { requestingUser: user, roomId, team, seed: 0, role })
         })
 
@@ -118,7 +122,7 @@ const PlayRoom = ({ socket, router: { location: { search, state: { users, } }, m
             }, 1000)
         } else {
             setCountDown(false)
-            startWordCounter(2)
+            startWordCounter(70)
         }
     }
 
@@ -137,8 +141,11 @@ const PlayRoom = ({ socket, router: { location: { search, state: { users, } }, m
 
         if (leave) {
             socket.emit('leaveGame', { roomId, user })
-            history.push(`/room/${roomId}`)
-            window.location.reload()
+            if (roomId) {
+                const roomIdArray = roomId.toString().split('_')
+                history.push(`/room/${roomIdArray[0]}`)
+                window.location.reload()
+            }
         }
     }
 
