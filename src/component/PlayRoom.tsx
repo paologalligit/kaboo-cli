@@ -56,6 +56,7 @@ const PlayRoom = ({ socket, router: { location: { search, state: { users, } }, m
     const [wordCounter, setWordCounter] = useState(0)
     const [role, setRole] = useState('-')
     const [turnUsers, setTurnUsers] = useState(users)
+    const [skipCounter, setSkipCounter] = useState(2)
 
     const { roomId, user } = qs.parse(search.substr(1, search.length - 1))
 
@@ -122,6 +123,7 @@ const PlayRoom = ({ socket, router: { location: { search, state: { users, } }, m
             }, 1000)
         } else {
             setCountDown(false)
+            setSkipCounter(2)
             startWordCounter(70)
         }
     }
@@ -186,7 +188,10 @@ const PlayRoom = ({ socket, router: { location: { search, state: { users, } }, m
         // socket.emit('getWord', { roomId, seed: getSeed() })
     }
     const onSkipWord = () => {
-
+        if (skipCounter > 0) {
+            setSkipCounter(prev => prev - 1)
+            socket.emit('ask4word', {roomId})
+        }
     }
     const onNewTurn = () => {
         socket.emit('newTurn', { roomId })
@@ -217,6 +222,7 @@ const PlayRoom = ({ socket, router: { location: { search, state: { users, } }, m
                                 onCorrect={() => onCorrectWord()}
                                 onError={() => onErrorWord()}
                                 onSkip={() => onSkipWord()}
+                                skipCounter={skipCounter}
                                 onNewTurn={() => onNewTurn()}
                                 newButtonDisabled={wordCounter === 0}
                                 pointButtonsDisabled={role !== 'Speaker' || wordCounter === 0}
