@@ -14,7 +14,7 @@ interface Props {
 const BottomCardButtons = ({ onSkip, onCorrect, onError, onNewTurn, newButtonDisabled, pointButtonsDisabled, skipCounter }: Props) => {
     return (
         <div className="panel">
-            <button type="button" className="btn btn-primary btn-circle" disabled={!newButtonDisabled} onClick={() => onNewTurn()}>
+            <button type="button" className="btn btn-primary btn-circle" disabled={newButtonDisabled} onClick={() => onNewTurn()}>
                 New
             </button>
             <button type="button" className="btn btn-success btn-circle" onClick={() => onCorrect()} disabled={pointButtonsDisabled}>
