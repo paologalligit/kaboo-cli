@@ -10,6 +10,7 @@ import { Spinner, Button } from 'react-bootstrap'
 import axios from 'axios'
 import { RouteComponentProps, useHistory } from 'react-router-dom'
 import './styles/Room.css'
+import Peer from 'peerjs'
 
 interface Props {
     socket: SocketIOClient.Socket,
@@ -27,8 +28,15 @@ const Room = ({ socket, router: { match } }: Props) => {
 
     const { id } = match.params
     const user: User = JSON.parse(localStorage.getItem('user') || '')
+    
+    const myPeer = new Peer()
 
     useEffect(() => {
+
+        myPeer.on('open', peerId => {
+            socket.emit('joinWaitingRoom', { name: user.userName, room: id, peerId })
+        })
+
         axios.get(`${process.env.REACT_APP_API_URL || config.API_URL}/room/owner/${id}`)
             .then(res => {
                 if (res) {
@@ -37,7 +45,7 @@ const Room = ({ socket, router: { match } }: Props) => {
             })
             .catch(err => console.error(err))
 
-        socket.emit('joinWaitingRoom', { name: user.userName, room: id })
+        // socket.emit('joinWaitingRoom', { name: user.userName, room: id })
 
         socket.on('startGame', (users: string) => {
             history.push(
@@ -81,11 +89,12 @@ const Room = ({ socket, router: { match } }: Props) => {
                     <p>PLAYER: {user.userName}</p>
                 </div>
 
-                <RoomInfo socketConnection={socket} userName={user.userName} />
+                <RoomInfo myPeer={myPeer} socketConnection={socket} userName={user.userName} roomId={id} userId={user.userName} />
                 {loading && <Spinner animation="border" role="status"><span className="sr-only">Loading...</span></Spinner>}
 
                 {isOwner && <Button variant="success" onClick={() => onStartClick()}> <IoPlay /> START</Button>}
             </div>
+            <div id="video-grid" style={{ height: '50px', width: '50px' }}></div>
         </div>
     )
 }
